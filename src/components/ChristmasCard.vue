@@ -325,7 +325,10 @@ const confirmSubmit = () => {
 			
 			<div class="preview-box">
 				<div class="preview-icon"><img :src="icons[currentIndex]" class="preview-img-lg" /></div>
-				<div class="preview-from">From: {{ nickname || '神秘人' }}</div>
+				<div class="preview-from">
+          <div class="from-label">From.</div>
+          <div class="from-name">{{ nickname || '神秘人' }}</div>
+        </div>
 				<div class="preview-body">{{ content }}</div>
 				<div v-if="previewUrls.length > 0" class="image-gallery">
 					<img v-for="(url, idx) in previewUrls" :key="idx" :src="url" class="gallery-img" />
@@ -359,7 +362,10 @@ const confirmSubmit = () => {
             <div class="big-icon">
               <img :src="data?.icon" class="preview-img-lg" />
             </div>
-            <div class="message-meta">From: {{ data?.nickname }}</div>
+            <div class="message-meta">
+              <div class="from-label">From.</div>
+              <div class="from-name">{{ data?.nickname }}</div>
+            </div>
             <div class="message-body">
               {{ data?.content }}
             </div>
@@ -384,7 +390,9 @@ const confirmSubmit = () => {
 /* 基础动画 */
 .fade-enter-active, .fade-leave-active { transition: opacity 0.3s; }
 .fade-enter-from, .fade-leave-to { opacity: 0; }
-
+:root {
+  --handwriting-font: 'Courgette', 'Ma Shan Zheng', cursive;
+}
 /* 遮罩层 */
 .overlay {
   position: fixed;
@@ -397,6 +405,38 @@ const confirmSubmit = () => {
   z-index: 100;
   padding: 20px;
 }
+
+
+/* 查看页的抬头 (From: Alice) */
+.preview-from,
+.message-meta {
+  /* 1. 左对齐 */
+  text-align: left;
+  
+  /* 2. 颜色改为圣诞绿 */
+  color: #165b33; 
+  
+  /* 3. 字体设置 (沿用之前的手写体) */
+  font-family: 'Courgette', 'Ma Shan Zheng', cursive;
+  margin-bottom: 15px; /* 和正文拉开点距离 */
+  margin-top: 10px;
+  line-height: 1.2;    /* 紧凑一点 */
+}
+
+.from-label {
+  font-size: 1.1rem;
+  font-weight: 800; /* 加粗 */
+  opacity: 0.8;     /* 稍微淡一点 */
+}
+
+/* 发信人名字 */
+.from-name {
+  font-size: 1.6rem; /* 名字大一点 */
+  font-weight: 900;  /* 超级加粗 */
+  margin-left: 5px;  /*稍微缩进一点点，更有层次感 */
+  letter-spacing: 1px;
+}
+
 .carousel-container {
   display: flex;
   align-items: center;
@@ -616,7 +656,6 @@ textarea { resize: none; }
   margin-bottom: 15px;
 }
 .preview-icon { font-size: 3rem; margin-bottom: 10px; }
-.preview-from { color: #888; font-size: 0.9rem; margin-bottom: 8px; }
 .preview-body, 
 .message-body { 
   font-size: 1.1rem; 
@@ -641,6 +680,28 @@ textarea { resize: none; }
   display: block;
   width: 100%;
   box-sizing: border-box;
+  font-family: 'Courgette', 'Ma Shan Zheng', cursive;
+  font-size: 1.35rem; /* 手写体通常比标准字体小，所以要调大字号 */
+  line-height: 1.8;   /* 手写体行高要大一点才好看 */
+  color: #2c3e50;
+  
+  /* 稍微加一点文字阴影，模拟墨水渗在纸上的感觉 */
+  text-shadow: 0 0 1px rgba(0,0,0,0.1); 
+  
+  /* 之前的布局代码保持不变 */
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  display: block;
+  box-sizing: border-box;
+  max-height: 180px;
+  overflow-y: auto;
+  margin-top: 10px;
+  padding: 12px;
+  background-color: rgba(0, 0, 0, 0.03);
+  border-radius: 8px;
+  border: 1px solid rgba(0,0,0,0.05);
 }
 /* 美化滚动条 (Webkit browsers: Chrome, Safari) */
 .preview-body::-webkit-scrollbar,
