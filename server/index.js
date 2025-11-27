@@ -14,7 +14,7 @@ const PORT = 3000; // 后端运行在 3000 端口
 // --- 配置区 ---
 // 从环境变量获取密钥，如果没有则使用默认值 (仅用于开发，生产环境必须在 .env 设置!)
 const SECRET_KEY = process.env.SECRET_KEY || "my-secret-key-123";
-const CHRISTMAS_DATE = new Date('2024-12-25T00:00:00'); // 设置你的目标解锁时间
+const CHRISTMAS_DATE = new Date('2025-12-25T00:00:00'); // 设置你的目标解锁时间
 const uploadDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
 // --- 中间件 ---
