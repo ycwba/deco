@@ -1,5 +1,7 @@
 # Deco My Tree
 
+> A romantic and heart warming time capsule filled with festive atmosphere.
+
 ![](/public/demo.png)
 ### 运行前端
 
