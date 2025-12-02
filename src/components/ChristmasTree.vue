@@ -3,7 +3,9 @@
 import ChristmasCard from './ChristmasCard.vue';
 import { ref, onMounted, computed, watch } from 'vue'; // 确保引入了 computed 和 watch
 // 定义后端地址 (本地开发时)
-const API_URL = 'http://localhost:3000/api/decorations';
+// const API_URL = 'http://localhost:3000/api/decorations';
+
+const API_URL = '/tree/api/decorations';
 
 const decorations = ref([]); // 初始为空，等待加载
 const isChristmas = ref(false); // 状态由后端控制
