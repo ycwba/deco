@@ -5,7 +5,7 @@ const previewUrls = ref([]);   // 存 Blob URL (用于显示)
 // 接收父组件传来的参数
 const showWarning = ref(false);
 const warningMsg = ref("");
-const EASTER_EGG_ICON = '/icons/secret.png'; // 记得放一张特殊的图在这里！
+const EASTER_EGG_ICON = '/tree/icons/secret.png'; // 记得放一张特殊的图在这里！
 
 // 2. 新增状态：当前是否触发了彩蛋
 const isEasterEgg = ref(false);
@@ -85,20 +85,20 @@ const currentIndex = ref(0);
 // ];
 
 const icons = [
-  // '/icons/gift.png',
-  // '/icons/candy.png',
-  // '/icons/sock.png',
-  // '/icons/bell.png',
-  // '/icons/cookie.png'
-  '/icons/crystalball.png',
-  '/icons/gingerbread.png',
-  '/icons/glove.png',
-  '/icons/snowflake.png',
-  '/icons/gift.png',
-  '/icons/ribbon.png',
-  '/icons/ball.png',
-  '/icons/mistletoe.png',
-  '/icons/cupcake.png',
+  // '/tree/icons/gift.png',
+  // '/tree/icons/candy.png',
+  // '/tree/icons/sock.png',
+  // '/tree/icons/bell.png',
+  // '/tree/icons/cookie.png'
+  '/tree/icons/crystalball.png',
+  '/tree/icons/gingerbread.png',
+  '/tree/icons/glove.png',
+  '/tree/icons/snowflake.png',
+  '/tree/icons/gift.png',
+  '/tree/icons/ribbon.png',
+  '/tree/icons/ball.png',
+  '/tree/icons/mistletoe.png',
+  '/tree/icons/cupcake.png',
   // ... 添加更多
 ];
 const visibleIcons = computed(() => {
