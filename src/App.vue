@@ -1,11 +1,13 @@
 <script setup>
 import SnowBackground from './components/SnowBackground.vue'
 import ChristmasTree from './components/ChristmasTree.vue'
+import Countdown from './components/Countdown.vue'
 </script>
 
 <template>
   <div class="app-container">
     <SnowBackground />
+    <Countdown />
     <div class="content">
       <h1>Deco My Tree 🎄</h1>
       <p>点击圣诞树，挂上你的礼物</p>
