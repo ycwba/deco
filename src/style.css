@@ -1,3 +1,11 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* 修复 iOS/Android 点击高亮色块问题 */
+html, body {
+  -webkit-tap-highlight-color: transparent;
+}
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

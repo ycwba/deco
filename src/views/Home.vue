@@ -17,9 +17,11 @@ import ChristmasTree from '../components/ChristmasTree.vue';
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   /* 确保主页只占一屏，绝对不许滚 */
   height: 100vh; 
   width: 100%;
+  height: 100dvh;
   overflow: hidden; /* ⚠️ 关键：如果有溢出，直接切掉（或强制压缩子元素） */
   
   /* PC端布局 */
@@ -32,7 +34,9 @@ import ChristmasTree from '../components/ChristmasTree.vue';
   .home-container {
     justify-content: flex-start;
     /* 给顶部倒计时留空，但不能留太多导致树没地方放 */
-    padding-top: 100px; 
+    padding-top: 120px;
+    padding-left: 20px; 
+    padding-right: 20px;
     padding-bottom: 20px; /* 底部留点空隙给导航条 */
   }
   

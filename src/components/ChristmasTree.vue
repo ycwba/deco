@@ -298,7 +298,13 @@ const isLoading = ref(true); // 新增状态
 <style scoped>
 /* 这里把之前的样式保留即可 */
 .tree-wrapper { display: flex; justify-content: center; align-items: center; min-height: 80vh; padding: 20px; }
-.tree-container { position: relative; width: 100%; max-width: 500px; cursor: crosshair; }
+.tree-container {
+  position: relative;
+  width: fit-content; /* 这一行在某些旧安卓机可能兼容性不好 */
+  /* 👇 建议加一个兜底 */
+  max-width: 100%;
+  margin: 0 auto; /* 强制水平居中 */
+}
 /* .tree-img { width: 100%; height: auto; display: block; user-select: none; } */
 .tree-img {
   width: auto;
