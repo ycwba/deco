@@ -18,12 +18,18 @@ const CHRISTMAS_DATE = new Date('2025-12-25T00:00:00'); // 设置你的目标解
 const uploadDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
 // --- 中间件 ---
-app.use(cors()); // 允许前端访问
-app.use(express.json()); // 解析 JSON 请求体
+//app.use(cors()); // 允许前端访问
+//app.use(express.json()); // 解析 JSON 请求体
 
 // 让前端可以通过 http://localhost:3000/uploads/xxx.jpg 访问图片
-app.use('/uploads', express.static(uploadDir));
+//app.use('/uploads', express.static(uploadDir));
+// 2. 托管前端静态文件 (关键步骤)
+// 解析：__dirname 是当前 index.js 所在的目录 (即 server 目录)
+// 我们要找的是 server 目录的上一级 (../) 里的 dist 目录
+app.use(express.static(path.join(__dirname, '../dist')));
 
+// 3. 托管用户上传的图片 (这一步你之前应该加过了)
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // --- 1. 配置 Multer (文件存储策略) ---
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -144,7 +150,9 @@ app.get('/api/decorations', async (req, res) => {
     res.status(500).json({ error: "获取失败" });
   }
 });
-
+app.get(/.*/, (req, res) => {
+  res.sendFile(path.join(__dirname, '../dist/index.html'));
+});
 // 启动服务器
 app.listen(PORT, () => {
   console.log(`🎄 Backend running at http://localhost:${PORT}`);

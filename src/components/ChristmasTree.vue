@@ -216,22 +216,6 @@ const isLoading = ref(true); // 新增状态
       <div v-if="isLoading" class="loading-text">
         正在从北极运送礼物... 🦌
       </div>
-      <!-- <div 
-        v-for="item in decorations" 
-        :key="item.id"
-        class="decoration"
-        :style="{ left: item.x + '%', top: item.y + '%' }"
-        @click.stop="handleDecorationClick(item)" 
-      >
-        <img :src="item.icon" class="tree-decoration-img" />
-      </div>
-
-      <div 
-        v-if="pendingPoint" 
-        class="pending-dot"
-        :style="{ left: pendingPoint.x + '%', top: pendingPoint.y + '%' }"
-      ></div>
-    </div> -->
     <div 
         v-for="item in currentTreeDecorations" 
         :key="item.id"
@@ -315,7 +299,25 @@ const isLoading = ref(true); // 新增状态
 /* 这里把之前的样式保留即可 */
 .tree-wrapper { display: flex; justify-content: center; align-items: center; min-height: 80vh; padding: 20px; }
 .tree-container { position: relative; width: 100%; max-width: 500px; cursor: crosshair; }
-.tree-img { width: 100%; height: auto; display: block; user-select: none; }
+/* .tree-img { width: 100%; height: auto; display: block; user-select: none; } */
+.tree-img {
+  width: auto;
+  height: auto;
+  display: block;
+  user-select: none;
+  margin: 0 auto;
+  
+  /* ⚠️ 核心修复：动态限制高度 */
+  /* PC端：不超过屏幕 70% */
+  max-height: 70vh; 
+}
+@media (max-width: 768px) {
+  .tree-img {
+    /* 手机端因为顶部有 padding (约100px) 和标题，树必须更矮才能塞进一屏 */
+    /* 计算逻辑：100vh - 100px(顶) - 50px(底) - 标题高度 */
+    max-height: 60vh; 
+  }
+}
 .decoration { 
   position: absolute; 
   transform: translate(-50%, -50%); 
@@ -367,18 +369,7 @@ const isLoading = ref(true); // 新增状态
 }
 
 /* 1. 限制树的最大高度 */
-.tree-img {
-  width: auto; /* 让宽度自动，保持比例 */
-  height: auto;
-  
-  /* 核心代码：限制高度不超过屏幕的 65%-75% */
-  /* 留出 30% 给标题和底部的雪地 */
-  max-height: 70vh; 
-  
-  display: block;
-  user-select: none;
-  margin: 0 auto; /* 居中 */
-}
+
 
 /* 2. 确保容器也是居中的，且宽度紧贴图片 */
 .tree-container {
