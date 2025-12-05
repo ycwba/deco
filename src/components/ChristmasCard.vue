@@ -383,6 +383,22 @@ onUnmounted(() => {
   overflow-y: auto; 
   overflow-x: hidden;
 }
+.card-face1 {
+  grid-area: stack;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background: transparent;
+  width: 100%;
+  height: 80%;
+  
+  /* ⚠️ 关键：这里控制内边距，保证分割线不贴边 */
+  padding: var(--card-padding); 
+  box-sizing: border-box;
+  
+  /* 内部滚动：防止内容太长被切掉 */
+  overflow-y: auto; 
+  overflow-x: hidden;
+}
 
 .card-front { transform: rotateY(0deg); }
 .card-back { transform: rotateY(180deg); }
@@ -489,33 +505,60 @@ textarea { resize: none; }
   box-sizing: border-box; 
   width: 100%; 
   background: white; 
-  padding: 20px; 
+  padding: 15px; 
   border-radius: 8px; 
-  border: 1px dashed #ccc; /* 淡淡的虚线框 */
+  border: 1px dashed #ccc; 
   text-align: center; 
-  margin-bottom: 20px; 
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* 微微浮起 */
+  margin-bottom: 10px; 
+  
+  /* ⚠️ 核心修复 1: 启用 Flex 列布局 */
+  display: flex;
+  flex-direction: column;
+  
+  /* ⚠️ 核心修复 2: 限制白框的最大高度 */
+  /* 防止白框太高把上面的标题或下面的按钮挤出屏幕 */
+  /* 55vh 意味着白框最多占屏幕高度的 55% */
+  max-height: 55vh; 
+  
   position: relative;
 }
 
-.preview-icon { font-size: 3rem; margin-bottom: 10px; }
-.preview-img-lg { width: 80px; height: 80px; object-fit: contain; margin-bottom: 10px; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.2)); }
+.preview-icon { font-size: 3rem; margin-bottom: 10px; flex-shrink: 0;}
+.preview-img-lg {flex-shrink: 0; width: 70px; height: 70px; object-fit: contain; margin-bottom: 8px; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.2)); }
 
 .preview-from, .message-meta { 
   text-align: left; color: #165b33; font-family: 'Courgette', 'Ma Shan Zheng', cursive; 
-  margin-bottom: 10px; line-height: 1.2; width: 100%; 
+  margin-bottom: 8px; line-height: 1.2; width: 100%;flex-shrink: 0; 
 }
 .from-label { font-size: 1rem; font-weight: 800; opacity: 0.8; }
 .from-name { font-size: 1.5rem; font-weight: 900; margin-left: 5px; letter-spacing: 1px; }
 
 .preview-body, .message-body { 
+  box-sizing: border-box; 
   width: 100%;
-  font-size: 1.3rem; line-height: 1.6; text-align: left; white-space: pre-wrap; 
-  word-break: break-word; color: #2c3e50; 
-  max-height: 200px; 
-  overflow-y: auto; 
+  font-size: 1.2rem; 
+  line-height: 1.5; 
+  text-align: left; 
+  white-space: pre-wrap; 
+  word-break: break-word; 
+  color: #2c3e50; 
+  
+  /* ⚠️ 核心修复 3: 弹性高度 */
+  /* flex: 1 让文字区域自动占据剩余空间 */
+  /* min-height: 0 是 Flexbox 滚动条生效的关键 */
+  flex: 1; 
+  min-height: 0; 
+  overflow-y: auto; /* 文字多了就出滚动条 */
+  
+  /* 移除固定的 max-height，改由父容器控制 */
+  /* max-height: 150px; <--- 删除这行 */
+  
+  background: rgba(255, 255, 255, 0.5); 
+  border-radius: 8px; 
+  padding: 10px; 
   font-family: 'Courgette', 'Ma Shan Zheng', cursive; 
-  padding: 5px; /* 给文字一点呼吸 */
+  border: 1px solid rgba(0,0,0,0.05); 
+  margin-bottom: 5px;
 }
 
 /* =========================================
@@ -544,8 +587,21 @@ textarea { resize: none; }
 .big-icon { font-size: 3.5rem; margin-bottom: 10px; display: block; }
 .blur-text { filter: blur(4px); opacity: 0.5; margin: 15px 0; background: #eee; padding: 10px; }
 .unlocked-view { text-align: center; width: 100%; }
-.image-gallery { display: flex; gap: 8px; margin-top: 10px; overflow-x: auto; padding-bottom: 5px; width: 100%; }
-.gallery-img { height: 70px; width: auto; border-radius: 6px; border: 1px solid #eee; flex-shrink: 0; }
+.image-gallery { 
+  display: flex; 
+  gap: 8px; 
+  margin-top: 5px; 
+  overflow-x: auto; 
+  padding-bottom: 5px; 
+  width: 100%; 
+  
+  /* ⚠️ 核心修复 4: 防止图片被压缩没了 */
+  flex-shrink: 0; 
+  
+  /* 可选：限制图片区域最大高度，防止图片太大 */
+  max-height: 50px;
+}
+.gallery-img { height: 45px; width: auto; border-radius: 6px; border: 1px solid #eee; flex-shrink: 0; }
 
 /* 📱 窄屏微调 (针对 iPhone SE 等超小屏) */
 @media (max-width: 380px) {
