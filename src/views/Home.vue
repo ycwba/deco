@@ -34,15 +34,23 @@ import ChristmasTree from '../components/ChristmasTree.vue';
   .home-container {
     justify-content: flex-start;
     /* 给顶部倒计时留空，但不能留太多导致树没地方放 */
-    padding-top: 120px;
-    padding-left: 20px; 
-    padding-right: 20px;
+    padding-top: 90px;
+    /* padding-left: 20px;  */
+    /* padding-right: 20px; */
     padding-bottom: 20px; /* 底部留点空隙给导航条 */
+    overflow: hidden;
   }
   
   h1 {
     font-size: 1.8rem;
     margin: 0 0 10px 0;
+  }
+  .header-area {
+  /* 👇 核心代码：控制标题整体与下方树的距离 */
+  margin-bottom: 0px; 
+  
+  flex-shrink: 0;
+  z-index: 5;
   }
 }
 /* 你的标题样式 */

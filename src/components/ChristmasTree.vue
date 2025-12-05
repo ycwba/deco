@@ -297,7 +297,13 @@ const isLoading = ref(true); // 新增状态
 
 <style scoped>
 /* 这里把之前的样式保留即可 */
-.tree-wrapper { display: flex; justify-content: center; align-items: center; min-height: 80vh; padding: 20px; }
+.tree-wrapper { 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; /* 👈 罪魁祸首 1：垂直居中 */
+  /* min-height: 80vh;    👈 罪魁祸首 2：强制占据屏幕 80% 高度 */
+  padding: 0px; 
+}
 .tree-container {
   position: relative;
   width: fit-content; /* 这一行在某些旧安卓机可能兼容性不好 */
@@ -316,12 +322,17 @@ const isLoading = ref(true); // 新增状态
   /* ⚠️ 核心修复：动态限制高度 */
   /* PC端：不超过屏幕 70% */
   max-height: 70vh; 
+  max-width: 100%;
+  object-fit: contain; 
+  object-position: bottom center;
 }
 @media (max-width: 768px) {
   .tree-img {
     /* 手机端因为顶部有 padding (约100px) 和标题，树必须更矮才能塞进一屏 */
     /* 计算逻辑：100vh - 100px(顶) - 50px(底) - 标题高度 */
     max-height: 60vh; 
+    max-height: calc(100dvh - 180px);
+    width: 100%;
   }
 }
 .decoration { 
@@ -386,7 +397,33 @@ const isLoading = ref(true); // 新增状态
   margin: 0 auto;
   cursor: crosshair;
 }
-
+@media (max-width: 768px) {
+  .home-container {
+    /* 1. 改为从顶部开始排列，而不是居中 */
+    justify-content: flex-start;
+    
+    /* 2. 减小顶部内边距 */
+    /* 之前是 120px，现在改为 85px (刚好避开倒计时即可) */
+    padding-top: 85px; 
+    
+    /* 3. 底部留白，防止树根贴到底部 */
+    padding-bottom: 0;
+  }
+  
+  /* 4. 标题区域微调 */
+  .header-area {
+    /* 稍微减小标题和树之间的距离 */
+    margin-bottom: 5px; 
+    flex-shrink: 0; /* 防止标题被压缩 */
+    z-index: 5; /* 确保标题在树上方 */
+  }
+  
+  h1 {
+    font-size: 2rem;
+    margin: 0;
+    line-height: 1.2;
+  }
+}
 /* 3. 调整外层 wrapper，去掉多余的 padding */
 .tree-wrapper {
   display: flex;
@@ -399,7 +436,7 @@ const isLoading = ref(true); // 新增状态
 }
 .tree-pagination {
   position: absolute;
-  bottom: 20px; /* 距离底部 */
+  bottom: 50px; /* 距离底部 */
   left: 50%;
   transform: translateX(-50%);
   
@@ -413,8 +450,29 @@ const isLoading = ref(true); // 新增状态
   border-radius: 30px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   z-index: 20;
+  max-width: 90%;
+  white-space: nowrap;
 }
-
+@media (max-width: 768px) {
+  .tree-pagination {
+    /* 移动端策略：
+       1. 40px: 基础高度，比电脑端更高，防止贴底
+       2. env(safe-area-inset-bottom): 适配 iPhone X 等全面屏底部的黑条/手势区
+       3. max(...): 取两者中较大的，或者叠加使用
+    */
+    bottom: calc(60px + env(safe-area-inset-bottom));
+    
+    /* 稍微缩小一点尺寸，避免挡住太多树 */
+    padding: 6px 10px;
+    gap: 15px;
+  }
+  
+  /* 箭头稍微变大，方便手指点击 */
+  .nav-arrow {
+    font-size: 1.8rem;
+    padding: 0 15px; 
+  }
+}
 /* 箭头按钮 */
 .nav-arrow {
   background: none;
