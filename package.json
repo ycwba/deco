@@ -8,8 +8,9 @@
     "build": "vite build",
     "preview": "vite preview",
     "postinstall": "cd server && prisma generate || true",
+    "deploy": "echo 'Deployment handled by Cloudflare Pages'",
     "pages:dev": "wrangler pages dev dist --compatibility-date=2024-01-01 --d1 DB",
-    "pages:deploy": "npm run build && wrangler pages deploy dist",
+    "pages:deploy": "wrangler pages deploy dist",
     "d1:create": "wrangler d1 create deco-database",
     "d1:init": "wrangler d1 execute deco-database --local --file=./migrations/schema.sql",
     "d1:migrate": "wrangler d1 execute deco-database --file=./migrations/schema.sql"
