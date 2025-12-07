@@ -12,6 +12,18 @@ dist
 dist-ssr
 *.local
 
+# Cloudflare
+.wrangler
+.dev.vars
+
+# Database
+server/uploads
+server/prisma/dev.db
+server/prisma/dev.db-journal
+
+# Environment
+.env
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

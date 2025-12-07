@@ -6,17 +6,28 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "postinstall": "prisma generate",
+    "pages:dev": "wrangler pages dev dist --compatibility-date=2024-01-01 --d1 DB",
+    "pages:deploy": "npm run build && wrangler pages deploy dist",
+    "d1:create": "wrangler d1 create deco-database",
+    "d1:init": "wrangler d1 execute deco-database --local --file=./migrations/schema.sql",
+    "d1:migrate": "wrangler d1 execute deco-database --file=./migrations/schema.sql"
   },
   "dependencies": {
+    "@prisma/client": "^5.22.0",
     "cors": "^2.8.5",
+    "crypto-js": "^4.2.0",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "multer": "^2.0.2",
     "vue": "^3.5.24",
     "vue-router": "^4.6.3"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.1",
-    "vite": "^7.2.4"
+    "prisma": "^5.22.0",
+    "vite": "^7.2.4",
+    "wrangler": "^3.0.0"
   }
 }

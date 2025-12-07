@@ -1,0 +1,15 @@
+-- D1 Database Schema
+CREATE TABLE IF NOT EXISTS Decoration (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  x TEXT NOT NULL,
+  y TEXT NOT NULL,
+  icon TEXT NOT NULL,
+  nickname TEXT,
+  content TEXT NOT NULL,
+  isPrivate INTEGER DEFAULT 0,
+  images TEXT,
+  createdAt TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create index for faster queries
+CREATE INDEX IF NOT EXISTS idx_createdAt ON Decoration(createdAt);
