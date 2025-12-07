@@ -1,5 +1,5 @@
 
-# 🎄 Deco Tree (Christmas Time Capsule)
+# 🎄 Deco (Christmas Time Capsule)
 
 <div align="center">
   <img src="https://img.shields.io/badge/Vue.js-3.0-4FC08D?style=flat&logo=vue.js" alt="Vue 3" />
@@ -13,7 +13,7 @@
 
 ## 📖 项目简介 (Introduction)
 
-**Deco Tree** 是一个全栈互动的圣诞主题网页应用。用户可以选择精美的图标、上传照片并写下祝福挂在虚拟的圣诞树上。
+**Deco** 是一个全栈互动的圣诞主题网页应用。用户可以选择精美的图标、上传照片并写下祝福挂在虚拟的圣诞树上。
 
 最有意思的是它的 **“时间胶囊”** 机制：所有留言在 **12月25日** 之前都是“封印”状态（内容被加密隐藏），只有到了圣诞节当天，所有的祝福才会自动解封，供大家查阅。
 
@@ -46,17 +46,15 @@
 
 ### 1. 克隆项目
 ```bash
-git clone [https://github.com/你的用户名/deco-tree.git](https://github.com/你的用户名/deco-tree.git)
-cd deco-tree
+git clone https://github.com/shmilyty/deco.git
+cd deco
 ```
 
 ### 2. 安装依赖
 
 需要分别安装根目录（前端）和 `server` 目录（后端）的依赖。
 
-Bash
-
-```
+```bash
 # 安装前端依赖
 npm install
 
@@ -69,9 +67,7 @@ npm install
 
 确保在 `server` 目录下。
 
-Bash
-
-```
+```bash
 # 生成 Prisma Client
 npx prisma generate
 
@@ -85,18 +81,14 @@ npx prisma migrate dev --name init
 
 - **终端 1 (后端)**：
 
-  Bash
-
-  ```
+  ```bash
   cd server
   node index.js
   ```
 
 - **终端 2 (前端)**：
 
-  Bash
-
-  ```
+  ```bash
   # 回到根目录
   npm run dev
   ```
@@ -113,25 +105,27 @@ npx prisma migrate dev --name init
 
 确保服务器已安装 Node.js (v20+) 和 PM2。
 
-Bash
+```bash
+# 安装 Node.js (Install Node.js)
+# Add the NodeSource repository for Node.js 20.x
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
 
-```
-# 安装 Node.js
-curl -fsSL [https://deb.nodesource.com/setup_20.x](https://deb.nodesource.com/setup_20.x) | sudo -E bash -
-sudo apt-get install -y nodejs
+# Update package lists after adding the new repository
+sudo apt update
 
-# 安装 PM2
+# Install Node.js
+sudo apt install -y nodejs
+
+# 安装 PM2 (Install PM2)
 sudo npm install -g pm2
 ```
 
 ### 2. 部署代码
 
-将代码上传至服务器 `/var/www/decotree`（示例路径）。
+将代码上传至服务器 `/root/deco`（示例路径）。
 
-Bash
-
-```
-cd /var/www/decotree
+```bash
+cd /root/deco
 npm install
 cd server
 npm install
@@ -141,18 +135,23 @@ npm install
 
 在 `server` 目录下创建 `.env` 文件：
 
+```bash
+nano .env
+```
+
 代码段
 
 ```
-DATABASE_URL="file:./prod.db"
+# 数据库连接 (SQLite 文件路径)
+DATABASE_URL="file:./dev.db"
+
+# 加密密钥 (随便乱打一串复杂的字符，千万别告诉别人)
 SECRET_KEY="这里填写一个复杂的随机字符串作为加密密钥"
 ```
 
 初始化生产环境数据库：
 
-Bash
-
-```
+```bash
 npx prisma generate
 npx prisma migrate deploy
 ```
@@ -161,20 +160,18 @@ npx prisma migrate deploy
 
 后端配置了静态托管 `../dist`，所以需要先构建前端。
 
-Bash
-
-```
+```bash
 # 在项目根目录
 npm run build
 ```
 
 ### 5. 启动服务 (PM2)
 
-Bash
-
-```
+```bash
 cd server
 pm2 start index.js --name "decotree"
+
+# 可选，设置服务器开机自启动
 pm2 save
 pm2 startup
 ```
@@ -184,8 +181,6 @@ pm2 startup
 使用 Caddy 处理 HTTPS 和路径转发（假设挂载在 `/tree/` 子路径）。
 
 `/etc/caddy/Caddyfile`:
-
-代码段
 
 ```
 your-domain.com {
@@ -213,7 +208,7 @@ your-domain.com {
 Plaintext
 
 ```
-deco-tree/
+deco/
 ├── dist/               # 前端构建产物 (Vue打包后)
 ├── public/             # 静态资源 (图标、图片)
 ├── src/                # 前端源代码
@@ -223,20 +218,18 @@ deco-tree/
 ├── server/             # 后端源代码
 │   ├── prisma/         # 数据库 Schema 和 SQLite 文件
 │   ├── uploads/        # 用户上传的图片存储目录
-│   └── index.js        # Express 入口文件
-└── vite.config.js      # Vite 配置
+│   ├── index.js        # Express 入口文件
+│   └── ...
+├── vite.config.js      # Vite 配置
+└── ...
 ```
 
 ## 🤝 贡献 (Contributing)
 
-如果你有好的点子（比如烟花特效，或是账号绑定），欢迎提交 Pull Request！
+如果你有好的点子（比如UI美化，账号绑定等），欢迎提交 Pull Request！
 
-1. Fork 本仓库
-2. 新建分支 `git checkout -b feature/NewFeature`
-3. 提交更改 `git commit -m 'Add some feature'`
-4. 推送到分支 `git push origin feature/NewFeature`
-5. 提交 Pull Request
+也欢迎提 Issues！
 
 ## 📄 License
 
-- 本项目使用 GNU General Public License v3.0
+- 本项目使用 [GNU General Public License v3.0](LICENSE)
