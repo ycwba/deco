@@ -1,4 +1,3 @@
--- D1 Database Schema
 CREATE TABLE IF NOT EXISTS Decoration (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   x TEXT NOT NULL,
@@ -11,5 +10,4 @@ CREATE TABLE IF NOT EXISTS Decoration (
   createdAt TEXT DEFAULT CURRENT_TIMESTAMP
 );
 
--- Create index for faster queries
 CREATE INDEX IF NOT EXISTS idx_createdAt ON Decoration(createdAt);
